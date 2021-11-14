@@ -1,5 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
+export const mediaSizes = {
+    desktop: '@media(min-width: 1000px)'
+}
+
 const GlobalStyles = createGlobalStyle`
     * {
         margin: 0;
@@ -35,6 +39,17 @@ const GlobalStyles = createGlobalStyle`
         background-color: #43BE8D;
         border: none;
         margin: 12px auto 27px auto;
+    }
+
+
+    ${mediaSizes.desktop} {
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 `;
 

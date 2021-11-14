@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //hooks
 import { useLogin } from '../../hooks/useLogin';
 //components
 import Header from '../../components/Header'
 //styling and animation
 import styled from 'styled-components';
-
+import { mediaSizes } from '../../components/GlobalStyles';
 //images
 import loginIcon from './images/login.png';
 import passIcon from './images/pass.png';
@@ -17,15 +17,29 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { loginUser, isPending, error } = useLogin();
 
+  const [width, setWidth] = useState(window.innerWidth);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     loginUser(login, password);
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [width]);
+
   return (
     <LoginForm onSubmit={handleSubmit}>
       <Header />
-      <h1>Zaloguj się</h1>
+      <h1>{width >= 1000 ? 'Zaloguj się do aplikacji' : 'Zaloguj się'}</h1>
       <hr className="green-line" />
       <div className="login-form-inner">
         <label className="form-input">
@@ -61,6 +75,14 @@ const LoginForm = styled.form`
   max-height: 624px;
   max-width: 640px;
   margin: auto;
+
+  ${mediaSizes.desktop} {
+      background: #FFFFFF;
+      box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
+      padding: 36px 97px 91px 97px;
+      min-width: 640px;
+  }
 
   h1 {
     text-align: center;

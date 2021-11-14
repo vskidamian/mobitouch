@@ -15,10 +15,14 @@ export const useGetUserData = () => {
 
         try {
             const res = await axios.get(userDataURL, config);
+
             // dispatch user data
             dispatch({ type: 'USER_DATA', payload: res.data })
         }
         catch (err) {
+            localStorage.removeItem('token');
+            dispatch({ type: 'USER_IS_LOGED', payload: null })
+
             console.log(err);
         }
     }
